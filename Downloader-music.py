@@ -3,6 +3,23 @@ from moviepy.editor import AudioFileClip
 import os
 
 def download_audio():
+    """
+    Downloads the audio from a YouTube video or song link.
+
+    This function prompts the user to input a YouTube video or song link, retrieves the video details such as title, author, and duration,
+    identifies and downloads the audio stream, and then converts the downloaded file to MP3 format if necessary.
+
+    Parameters:
+    None
+
+    Returns:
+    None
+
+    Raises:
+    pytube.exceptions.RegexMatchError: If the input YouTube link is invalid.
+    Exception: If an error occurs during the audio download process.
+    """
+    
     try:
         link = input('Enter the YouTube video or song link: ')
         print('\n')
