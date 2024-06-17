@@ -1,16 +1,19 @@
 BoxLayout:
     orientation: 'vertical'
-    padding: 20
-    spacing: 10
+    padding: 20  # Ajusta el padding si es necesario
+    spacing: 10  # Ajusta el spacing para controlar el espaciado vertical
 
     TextInput:
         id: url_input
         hint_text: "Pega la URL del video de YouTube aquí"
+        size_hint: (1, None)
+        height: 40
+        pos_hint: {'center_x': 0.5}
 
     Button:
         id: download_button
         text: "Descargar"
+        size_hint: (0.5, None)
+        height: 30
+        pos_hint: {'center_x': 0.5}
 
-    Label:
-        id: status_label
-        text: ""
