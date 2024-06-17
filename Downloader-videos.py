@@ -1,9 +1,25 @@
-from pickletools import pytuple
 from pytube import YouTube
 
 def download_video():
+    """
+    Downloads a YouTube video of the highest available quality.
+
+    This function prompts the user to input a YouTube video link, retrieves the video's title, author, and duration,
+    and downloads the video of the highest available quality in mp4 format to the current directory.
+
+    Parameters:
+    None
+
+    Returns:
+    None
+
+    Raises:
+    - pytube.exceptions.RegexMatchError: If the input YouTube link is invalid.
+    - Exception: If an error occurs while downloading the video.
+    """
+    
     try:
-        link = input('Enter the YouTube video or song link: ')
+        link = input('Enter the YouTube video: ')
         print('\n')
 
         yt = YouTube(link)
@@ -15,12 +31,10 @@ def download_video():
         minutes, seconds = divmod(duration, 60)
         print(f"Video Duration: {minutes:02d}:{seconds:02d}")
 
-        # Find the best quality progressive MP4 stream (video and audio combined)
         best_quality = yt.streams.filter(progressive=True, file_extension='mp4').get_highest_resolution()
-
-        # Check if a suitable stream was found
+  
         if best_quality:
-            download_path = './'  # You can customize the download path here
+            download_path = './'  
             best_quality.download(download_path)
             print(f"The video '{yt.title}' has been successfully downloaded to '{download_path}'")
         else:
