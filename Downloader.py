@@ -1,28 +1,35 @@
+from pickletools import pytuple
 from pytube import YouTube
 
-def descargar_video():
+def download_video():
     try:
-        enlace = input('Ingrese el enlace del video o canción: ')
+        link = input('Enter the YouTube video or song link: ')
         print('\n')
 
-        yt = YouTube(enlace)
-        print("Título del video:", yt.title)
-        print("Autor del video:", yt.author)
+        yt = YouTube(link)
+        print("Video Title:", yt.title)
+        print("Video Author:", yt.author)
         print('\n')
 
-        duracion = yt.length
-        minutos, segundos = divmod(duracion, 60)
-        print(f"Duracióndel video: {minutos:02d}:{segundos:02d}") 
+        duration = yt.length
+        minutes, seconds = divmod(duration, 60)
+        print(f"Video Duration: {minutes:02d}:{seconds:02d}")
 
-        mejor_calidad = yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first()
-        ruta_descarga = './' 
-        mejor_calidad.download(ruta_descarga) 
+        # Find the best quality progressive MP4 stream (video and audio combined)
+        best_quality = yt.streams.filter(progressive=True, file_extension='mp4').get_highest_resolution()
 
-        print(f"El video '{yt.title}' ha sido descargado correctamente en '{ruta_descarga}'")
+        # Check if a suitable stream was found
+        if best_quality:
+            download_path = './'  # You can customize the download path here
+            best_quality.download(download_path)
+            print(f"The video '{yt.title}' has been successfully downloaded to '{download_path}'")
+        else:
+            print("No suitable MP4 stream found for download.")
 
+    except pytube.exceptions.RegexMatchError:
+        print("Invalid YouTube link. Please check the link and try again.")
     except Exception as e:
-        print(f"Hubo un error al descargar el video: {e}")
-        print("Por favor, verifique el enlace e intente de nuevo.")
+        print(f"An error occurred while downloading the video: {e}")
 
 if __name__ == "__main__":
-    descargar_video()
+    download_video()
